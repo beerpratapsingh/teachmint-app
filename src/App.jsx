@@ -9,11 +9,16 @@ import './App.css';
 const App = () => {
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  // const [post, setPost] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const usersData = await api.fetchUsers();
       setUsers(usersData);
+
+      // const fetchPostData  = await api.fetchUserPosts();
+      // console.log('Beer', fetchPostData);
+      // setPost(fetchPostData);
     };
     fetchData();
   }, []);
@@ -29,19 +34,11 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            <UserDirectory users={users} onUserClick={handleUserClick} />
+            <UserDirectory users={users} /*post={post}*/ onUserClick={handleUserClick} />
           </Route>
           <Route path="/user/:userId">
-            {/* {selectedUser && <UserProfile user={selectedUser} />} */}
             <UserProfile user={selectedUser} />
           </Route>
-          {/* <Route path="/user/:userId">
-            {selectedUserId && selectedUser ? (
-              <UserProfile user={selectedUser} />
-            ) : (
-              <Redirect to="/" /> // Redirect to home if user is not found
-            )}
-          </Route> */}
         </Switch>
       </Router>
     </div>

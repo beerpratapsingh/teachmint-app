@@ -2,6 +2,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .container {
@@ -49,10 +50,12 @@
 }
 
 .clock-display {
+  min-width: 120px;
   color: #fff;
   background: #000044;
   padding: 12px;
   margin: 0 10px;
+  text-align: center;
   border-radius: 5px;
 }
 
@@ -109,6 +112,7 @@
   padding: 10px;
   border: 1px solid;
   border-radius: 10px;
+  cursor: pointer;
   box-sizing: border-box;
 }
 
@@ -120,6 +124,10 @@
 }
 
 @media (max-width: 767px) {
+  .profile-header {
+    flex-direction: column;
+    row-gap: 20px;
+  }
   .post-card {
     width: 100%;
   }

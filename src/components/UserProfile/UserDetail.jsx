@@ -38,5 +38,4 @@ const UserDetail = ({ user }) => {
   </div>
   )
 };
-
 export default UserDetail;

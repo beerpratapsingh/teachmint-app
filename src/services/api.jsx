@@ -11,8 +11,13 @@ export const fetchUsers = async () => {
 
 export const fetchUserPosts = async (userId) => {
   try {
-    const response = await axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`);
-    return response.data;
+    if(userId) {
+      const response = await axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`);
+      return response.data;
+    } else {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+      return response.data;
+    }
   } catch (error) {
     console.error('Error fetching user posts:', error);
   }

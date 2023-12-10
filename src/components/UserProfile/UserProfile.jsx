@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useHistory  } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import Clock from './Clock';
 import UserDetail from './UserDetail';
 import UserPosts from './UserPosts';
@@ -10,7 +10,7 @@ const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [timezones, setTimezones] = useState([]);
-  const [selectedTimezone, setSelectedTimezone] = useState('');//Indian/Chagos
+  const [selectedTimezone, setSelectedTimezone] = useState('');
   const [clockKey, setClockKey] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -21,23 +21,22 @@ const UserProfile = () => {
       const userData = await api.fetchUserDetails(userId);
       setUser(userData);
     };
+
     const fetchPostData = async () => {
       const userPostsData = await api.fetchUserPosts(userId);
       setPosts(userPostsData);
-    }
+    };
 
     const fetchTimezones = async () => {
       try {
         const response = await fetch('http://worldtimeapi.org/api/timezone');
         const data = await response.json();
-        console.log('09090909', data);
         setTimezones(data);
-        //setSelectedTimezone(data[0]); // Set the default timezone
+        setSelectedTimezone(data[0]); // Set the default timezone
       } catch (error) {
         console.error('Error fetching timezones:', error);
       }
     };
-
     fetchUserData();
     fetchPostData();
     fetchTimezones();
@@ -48,8 +47,25 @@ const UserProfile = () => {
       try {
         const response = await fetch(`http://worldtimeapi.org/api/timezone/${selectedTimezone}`);
         const data = await response.json();
-        console.log('selectedTimeZones', data);
-        setCurrentTime(new Date(data.utc_datetime));
+
+        // Update this part to parse the time correctly
+        if (data && (data.utc_datetime || data.datetime) && data.utc_offset) {
+          const utcDatetime = new Date(data.utc_datetime || data.datetime);
+          const offset = data.utc_offset;
+          const offsetSign = offset.charAt(0) === '+' ? 1 : -1;
+          const offsetHours = parseInt(offset.substring(1, 3), 10);
+          const offsetMinutes = parseInt(offset.substring(4, 6), 10);
+
+          utcDatetime.setHours(utcDatetime.getHours() + offsetSign * offsetHours);
+          utcDatetime.setMinutes(utcDatetime.getMinutes() + offsetSign * offsetMinutes);
+
+          setCurrentTime(utcDatetime);
+        } else {
+          console.error('Invalid response format:');
+          throw new Error('Invalid response format');
+        }
+
+        // setCurrentTime(new Date(data.utc_datetime));
       } catch (error) {
         console.error('Error fetching time:', error);
       }
@@ -59,10 +75,8 @@ const UserProfile = () => {
   }, [selectedTimezone]);
 
   const handleTimezoneChange = (e) => {
-    const selected = e.target.value;
-    setSelectedTimezone(selected);
-    setClockKey((prevKey) => prevKey + 1); // Change the key to force Clock component remount
-    // console.log('inner selectedTimezone', selectedTimezone);
+    setSelectedTimezone(e.target.value);
+    setClockKey((prevKey) => prevKey + 1);
   };
 
   const handleGoBack = () => {
@@ -75,7 +89,6 @@ const UserProfile = () => {
         <>
           <div className="profile-header">
             <button className='back-btn' onClick={handleGoBack}>Go Back</button>
-            {/* <h3>{user.name}'s Profile</h3> */}
             <div>
               <label htmlFor="timezoneSelector">Select Timezone: </label>
               <select
@@ -90,8 +103,7 @@ const UserProfile = () => {
                 ))}
               </select>
             </div>
-            {/* <Clock timezones={user?.timezones || 'UTC'} /> */}
-            <Clock timezones={currentTime} />
+            <Clock key={clockKey} currentTime={currentTime} selectedTimezone={selectedTimezone} />
           </div>
           <h2>Profile Page</h2>
           <UserDetail user={user} />
@@ -101,5 +113,4 @@ const UserProfile = () => {
     </div>
   );
 };
-
 export default UserProfile;
