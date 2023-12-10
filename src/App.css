@@ -1,0 +1,127 @@
+/* styles.css */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.page-title {
+  text-align: center;
+}
+
+.user-directory {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.user-card {
+  color: #333;
+  font-weight: 500;
+  margin: 10px;
+  padding: 15px;
+  background: #a6cbe1;
+  text-decoration: none;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+#timezoneSelector {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.clock {
+  display: flex;
+  align-items: center;
+}
+
+.clock-display {
+  color: #fff;
+  background: #000044;
+  padding: 12px;
+  margin: 0 10px;
+  border-radius: 5px;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-btn, .time-btn {
+  padding: 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.back-btn {
+  padding: 15px;
+  background: #a6cbe1;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.time-btn {
+  width: 100px;
+  padding: 15px;
+  background: #a0d1a0;
+}
+
+.user-details {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.user-posts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.post-card {
+  width: calc(33.33% - 15px);
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.post-title {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+  padding-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+  .post-card {
+    width: 100%;
+  }
+}
+/* Add more styling based on your design preferences */
